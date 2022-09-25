@@ -1,6 +1,7 @@
 import TaskDisplay from "./components/TaskDisplay";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import DeleteAllModal from "./components/DeleteAllModal";
 
 function App() {
   const [mainList, setMainList] = useState([
@@ -45,10 +46,19 @@ function App() {
           name: name,
           date: date,
           id: id,
+          done: false,
         },
       ]);
     }
     setName("");
+  };
+
+  const handleDeleteDoneClick = () => {
+    setMainList((current) =>
+      current.filter((task) => {
+        return task.done === false;
+      })
+    );
   };
 
   return (
@@ -78,19 +88,32 @@ function App() {
               {/* Create new task form */}
             </div>
             <div className="col d-flex flex-row-reverse">
-              <button className="button3 delete-done">Delete done</button>
               <button
-                className="button3"
+                className="button3 delete-done"
                 onClick={() => {
-                  setMainList([]);
+                  handleDeleteDoneClick();
                 }}
+              >
+                Delete done
+              </button>
+              <button
+                type="button"
+                class="button3"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
               >
                 Delete all
               </button>
+              <DeleteAllModal setMainList={setMainList} />
             </div>
           </div>
           {/* Task cards go here */}
-          <div className="row tasks">{createCards()}</div>
+
+          {mainList.length > 0 ? (
+            <div className="row tasks">{createCards()}</div>
+          ) : (
+            <div className="row no-tasks">No tasks to display.</div>
+          )}
         </div>
       </div>
     </body>
