@@ -25,13 +25,7 @@ const TaskDisplay = ({ task, mainList, setMainList }) => {
     <animated.div style={props} className="col-4">
       <div className="card">
         <h3>
-          <b
-            style={{
-              color: task.done ? "green" : "white",
-            }}
-          >
-            {task.name}
-          </b>
+          <b style={{ justifyContent: "space-between" }}>{task.name}</b>
         </h3>
         <p>{task.date ? task.date : "No date"}</p>
         <div className="button-container">
@@ -41,7 +35,7 @@ const TaskDisplay = ({ task, mainList, setMainList }) => {
               handleDoneClick(task);
             }}
           >
-            Done
+            {task.done ? <b>{"\u2713"}</b> : "Done"}
           </button>
           <button
             className="button2"
